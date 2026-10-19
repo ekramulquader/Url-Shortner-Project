@@ -9,7 +9,7 @@
 <body>
   <div id="main-container">
     <h1>URL Shortener</h1>
-    <form id="shorten-form">
+    <form id="shorten-form" action="/submit" method="post">
       <div>
         <label for="url">Enter URL:</label>
         <input type="url" name="url" id="url" required>
@@ -27,15 +27,27 @@
   </div>
 </body>
 <script>
-  const form = document.getElementById('shorten-form');
-    form.addEventListener('submit',(event)=>{
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const url = formData.get('url');
-      const shortCode = formData.get('shortCode');
-      console.log(url,shortCode)
-    })
+  
+const form = document.getElementById('shorten-form');
 
-   //Learnt about FormData Object and how it contains key-value pairs of given form as input
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(form);
+
+  const response = await fetch('/submit', {
+    method: 'POST',
+    body: new URLSearchParams(formData)
+  });
+
+  if (response.ok) {
+    console.log('URL submitted successfully!');
+  } else {
+    console.log('Something went wrong.');
+  }
+});
+
+    //Learnt about FormData Object and how it contains key-value pairs of given form as input
+
   </script>
 </html>
